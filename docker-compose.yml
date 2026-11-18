@@ -1,0 +1,31 @@
+services:
+  postgres-db:
+    image: postgres:17-alpine
+    container_name: ecommerce-backend-java-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ecommerce_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - ecommerce_pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: ecommerce-backend-java-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - ecommerce_pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres-db
+
+volumes:
+  ecommerce_pgdata:
+  ecommerce_pgadmin_data:
